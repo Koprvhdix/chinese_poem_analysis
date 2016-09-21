@@ -12,8 +12,25 @@ for item in file_list:
         print item
     else:
         content = file_read[0]
-        index1 = content.find(u"《")
-        index2 = content.find(u"《", index1 + 1)
-        content = content[:index2]
-        print content
-    break
+
+        final_content = u''
+        final_path = 'poem/' + item
+        start = 0
+        for i in range(len(content)):
+            if start == 1:
+                if content[i] == '>':
+                    start = 0
+                continue
+            if content[i] == '<':
+                start = 1
+            elif content[i] == ' ' or content[i] == u'':
+                continue
+            elif content[i] == u'【':
+                final_content += '\n'
+                final_content += content[i]
+            elif content[i] == u'《' and content[i - 1] == '>' and i > 4:
+                break
+            else:
+                final_content += content[i]
+        file_open = codecs.open(final_path, 'w', 'utf-8')
+        file_open.write(final_content)
