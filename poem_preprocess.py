@@ -68,4 +68,17 @@ if __name__ == '__main__':
         key_vector.append(answer)
         print item, key_vector
         answer_statistic[answer] += 1
+        # 写入文件
+        final_str = u''
+        file_read[3] += '\n'
+        if answer == 0:
+            file_read[3] += u'叙事诗' + u' ' + str(key_vector[0]).decode('ascii').encode('utf-8') +\
+                        u' ' + str(key_vector[1]).decode('ascii').encode('utf-8')
+        else:
+            file_read[3] += u'抒情诗' + u' ' + str(key_vector[0]).decode('ascii').encode('utf-8') + \
+                        u' ' + str(key_vector[1]).decode('ascii').encode('utf-8')
+        for lines in file_read:
+            final_str += lines
+        file_open = codecs.open(final_path, 'w', 'utf-8')
+        file_open.write(final_str)
     print answer_statistic
