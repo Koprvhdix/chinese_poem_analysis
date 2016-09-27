@@ -13,6 +13,7 @@ if __name__ == '__main__':
     for item in file_list:
         file_open = codecs.open(poem_dir + '/' + item, 'rw', 'utf-8')
         file_read = file_open.readlines()
+        file_open.close()
         if len(file_read) > 2:
             ignore_poem.append(item)
         else:
