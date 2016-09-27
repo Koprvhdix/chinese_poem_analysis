@@ -40,11 +40,6 @@ if __name__ == '__main__':
             file_open = codecs.open(final_path, 'w', 'utf-8')
             file_open.write(final_content)
 
-    ignore_poem_file = codecs.open('ignore_poem_file.txt', 'w', 'utf-8')
-    for item in ignore_poem:
-        ignore_poem_file.write((str(item) + '\n').decode('ascii').encode('utf-8'))
-    ignore_poem_file.close()
-
     # 用来存储分类结果
     answer_file = codecs.open('answer_file.txt', 'w', 'utf-8')
 
