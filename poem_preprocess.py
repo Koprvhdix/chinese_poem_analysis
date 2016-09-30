@@ -8,6 +8,7 @@ class ProcessPoem(object):
     def __init__(self):
         self.poem_name_list = list()
         self.poem_classified_result = dict()
+        self.poem_word_dict = dict()
 
     def process_raw_poem(self):
         raw_poem_dir = 'get_poem/poem'
@@ -48,7 +49,7 @@ class ProcessPoem(object):
                     elif content[i] == ' ' or content[i] == u'':
                         continue
                     elif content[i] == u'【':
-                        final_content += '\r'
+                        final_content += '\n'  # Unix为\n，Windows是\r\n
                         final_content += content[i]
                     elif content[i] == u'《' and content[i - 1] == '>' and i > 4:
                         break
@@ -61,7 +62,7 @@ class ProcessPoem(object):
                 self.poem_name_list.append(poem_name)
 
     def classified_poem_by_comment(self):
-        # 用来存储分类结果
+        # 用来存储分类结果，之后还将进行人工校验
         answer_file = codecs.open(u'answer_file.txt', 'w', 'utf-8')
 
         # 从赏析中获取抒情还是叙事的特征，方法：含【抒】字，或者含两个【情】字的为抒情诗，其他的为叙事诗，记录在最后一行。
@@ -90,15 +91,15 @@ class ProcessPoem(object):
                         answer = 1
 
             if answer == 0:
-                answer_str += (u'叙事诗' + '\t' + poem_name + '\r')
+                answer_str += (u'叙事诗' + '\t' + poem_name + '\n')  #
             else:
-                answer_str += (u'抒情诗' + '\t' + poem_name + '\r')
+                answer_str += (u'抒情诗' + '\t' + poem_name + '\n')
 
             key_vector.append(answer)
             answer_statistic[answer] += 1
             # 写入文件 为了校验方便
             final_str = u''
-            file_read[3] += '\r'
+            file_read[3] += '\n'
             if answer == 0:
                 file_read[3] += u'叙事诗' + u' ' + str(key_vector[0]).decode('ascii').encode('utf-8') + \
                                 u' ' + str(key_vector[1]).decode('ascii').encode('utf-8')
@@ -113,6 +114,9 @@ class ProcessPoem(object):
         answer_file.write(answer_str)
         print answer_statistic
         answer_file.close()
+
+    def poem_word(self):
+        # todo:从赏析中获取所有的诗词中的词语
 
 if __name__ == '__main__':
     poem_process = ProcessPoem()
