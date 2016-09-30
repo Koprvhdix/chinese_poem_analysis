@@ -48,7 +48,7 @@ class ProcessPoem(object):
                     elif content[i] == ' ' or content[i] == u'':
                         continue
                     elif content[i] == u'【':
-                        final_content += '\n'
+                        final_content += '\r'
                         final_content += content[i]
                     elif content[i] == u'《' and content[i - 1] == '>' and i > 4:
                         break
@@ -62,11 +62,13 @@ class ProcessPoem(object):
 
     def classified_poem_by_comment(self):
         # 用来存储分类结果
-        answer_file = codecs.open('answer_file.txt', 'w', 'utf-8')
+        answer_file = codecs.open(u'answer_file.txt', 'w', 'utf-8')
 
         # 从赏析中获取抒情还是叙事的特征，方法：含【抒】字，或者含两个【情】字的为抒情诗，其他的为叙事诗，记录在最后一行。
         poem_dir = u'poem'
         answer_statistic = [0, 0]  # 抒情诗的数量和叙事诗的数量
+
+        answer_str = u''
 
         for poem_name in self.poem_name_list:
 
@@ -87,13 +89,16 @@ class ProcessPoem(object):
                     if answer == 0 and key_vector[1] == 2:
                         answer = 1
 
-            answer_file.write(poem_name + (str(answer) + '\n').decode('ascii').encode('utf-8'))
+            if answer == 0:
+                answer_str += (u'叙事诗' + '\t' + poem_name + '\r')
+            else:
+                answer_str += (u'抒情诗' + '\t' + poem_name + '\r')
 
             key_vector.append(answer)
             answer_statistic[answer] += 1
             # 写入文件 为了校验方便
             final_str = u''
-            file_read[3] += '\n'
+            file_read[3] += '\r'
             if answer == 0:
                 file_read[3] += u'叙事诗' + u' ' + str(key_vector[0]).decode('ascii').encode('utf-8') + \
                                 u' ' + str(key_vector[1]).decode('ascii').encode('utf-8')
@@ -105,6 +110,7 @@ class ProcessPoem(object):
             file_open = codecs.open(final_path, 'w', 'utf-8')
             file_open.write(final_str)
             file_open.close()
+        answer_file.write(answer_str)
         print answer_statistic
         answer_file.close()
 
