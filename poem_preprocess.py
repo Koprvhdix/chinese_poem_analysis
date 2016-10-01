@@ -63,7 +63,7 @@ class ProcessPoem(object):
 
     def classified_poem_by_comment(self):
         # 用来存储分类结果，之后还将进行人工校验
-        answer_file = codecs.open(u'answer_file.txt', 'w', 'utf-8')
+        answer_file = codecs.open(u'answer_file.txt', 'w', 'utf-8')  # answer_file.txt存的是人工校验后的。
 
         # 从赏析中获取抒情还是叙事的特征，方法：含【抒】字，或者含两个【情】字的为抒情诗，其他的为叙事诗，记录在最后一行。
         poem_dir = u'poem'
@@ -114,9 +114,6 @@ class ProcessPoem(object):
         answer_file.write(answer_str)
         print answer_statistic
         answer_file.close()
-
-    def poem_word(self):
-        # todo:从赏析中获取所有的诗词中的词语
 
 if __name__ == '__main__':
     poem_process = ProcessPoem()
