@@ -91,7 +91,7 @@ class ProcessPoem(object):
                         answer = 1
 
             if answer == 0:
-                answer_str += (u'叙事诗' + '\t' + poem_name + '\n')  #
+                answer_str += (u'叙事诗' + '\t' + poem_name + '\n')
             else:
                 answer_str += (u'抒情诗' + '\t' + poem_name + '\n')
 
