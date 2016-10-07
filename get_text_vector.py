@@ -17,19 +17,6 @@ if __name__ == '__main__':
 
         word_list = list()
 
-        start = 0
-        word_comment_line = file_read[1]
-        word = u''
-        for i in range(len(word_comment_line)):
-            if word_comment_line[i] == u'、':  # 从'、'开始计算
-                start = 1
-                word = u''
-            elif word_comment_line[i] == u'：' and start == 1:  # 最近出现的顿号加冒号才有意义
-                start = 0
-                word_list.append(word)
-            elif start == 1:
-                word += word_comment_line[i]
-
         poem_line = file_read[0]
         state = 0
         index = 0
